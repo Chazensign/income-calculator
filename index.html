@@ -3,9 +3,127 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <link rel="stylesheet" href="index.css" />
+  <title>Income Calculator</title>
 </head>
 <body>
-  
+  <script src="index.js"></script>
+  <section id="main-container">
+    <div class='form-line'>
+      <label for="sel-state">State</label>
+      <select name="state" id="sel-state">
+        <option value="null">Select</option>
+        <option value="AL">Alabama</option>
+        <option value="AK">Alaska</option>
+        <option value="AZ">Arizona</option>
+        <option value="AR">Arkansas</option>
+        <option value="CA">California</option>
+        <option value="CO">Colorado</option>
+        <option value="CT">Connecticut</option>
+        <option value="DE">Delaware</option>
+        <option value="FL">Florida</option>
+        <option value="GA">Georgia</option>
+        <option value="HI">Hawaii</option>
+        <option value="ID">Idaho</option>
+        <option value="IL">Illinois</option>
+        <option value="IN">Indiana</option>
+        <option value="IA">Iowa</option>
+        <option value="KS">Kansas</option>
+        <option value="KY">Kentucky</option>
+        <option value="LA">Louisiana</option>
+        <option value="ME">Maine</option>
+        <option value="MD">Maryland</option>
+        <option value="MA">Massachusetts</option>
+        <option value="MI">Michigan</option>
+        <option value="MN">Minnesota</option>
+        <option value="MS">Mississippi</option>
+        <option value="MO">Missouri</option>
+        <option value="MT">Montana</option>
+        <option value="NE">Nebraska</option>
+        <option value="NV">Nevada</option>
+        <option value="NH">New Hampshire</option>
+        <option value="NJ">New Jersey</option>
+        <option value="NM">New Mexico</option>
+        <option value="NY">New York</option>
+        <option value="NC">North Carolina</option>
+        <option value="ND">North Dakota</option>
+        <option value="OH">Ohio</option>
+        <option value="OK">Oklahoma</option>
+        <option value="OR">Oregon</option>
+        <option value="PA">Pennsylvania</option>
+        <option value="RI">Rhode Island</option>
+        <option value="SC">South Carolina</option>
+        <option value="SD">South Dakota</option>
+        <option value="TN">Tennessee</option>
+        <option value="TX">Texas</option>
+        <option value="UT">Utah</option>
+        <option value="VT">Vermont</option>
+        <option value="VA">Virginia</option>
+        <option value="WA">Washington</option>
+        <option value="WV">West Virginia</option>
+        <option value="WI">Wisconsin</option>
+        <option value="WY">Wyoming</option>
+        <option value="DC">District of Columbia</option>
+        <option value="MH">Marshall Islands</option>
+        <option value=""></option>
+        <option value=""></option>
+      </select>
+    </div>
+    <div class='form-line'>
+      <label for="date">Paycheck Date</label>
+      <input type='date' id="date"/>
+    </div>
+    <div class='form-line'>
+      <label for="pay">Gross Pay</label>
+      <div class='dollar' >
+        <input type="number" id="pay">
+      </div>
+    </div>
+    <div class='form-line'>
+      <label for="method">Gross Pay Method</label>
+      <select name="pay-method" id="method"></select>
+    </div>
+    <div class='form-line'>
+      <label for="pay-ytd">Gross Pay YTD</label>
+      <div class='dollar' >
+        <input type="text" id="pay-ytd">
+      </div>
+    </div>
+    
+    <div class='form-line'>
+      <label for="freq">Pay Frequency</label>
+      <select name="frequency" id="freq"></select>
+    </div>
+    <input type="checkbox">
+    <div class='form-line'>
+
+      <label for="fed-stat">Federal Filing Status</label>
+      <select name="fed-status" id="fed_stat"></select>
+    </div>
+    
+    <input type="text">
+    <input type="checkbox">
+            <div class='form-line'>
+              <label for="state-stat">State Filing Status</label>
+              <select name="state-status" id="state-stat"></select>
+            </div>
+    <input type="text">
+    <input type="text">
+    <input type="checkbox">
+    <input type="checkbox">
+    <input type="checkbox">
+    <input type="checkbox">
+    <input type="text">
+    <div class='form-line'>
+      <label for="ded-type">Deduction Type</label>
+      <select name="deduct-type" id="ded-type"></select>
+    </div>
+    <input type="text">
+    <input type="text">
+  <input type="checkbox">
+  <input type="checkbox">
+  <input type="checkbox">
+  <input type="checkbox">
+  </section>
 </body>
 </html>
