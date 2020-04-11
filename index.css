@@ -1,4 +1,10 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Helvetica', arial, sans-serif;
+}
 #main-container {
+  font-size: 16px;
+  font-weight: bold;
   color: #424242;
   display: flex;
   flex-direction: column;
@@ -8,15 +14,70 @@
 }
 .form-line {
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  padding: 5px;
+}
+.form-line:hover {
+  background-color: #d4e4ff;
+}
+.form-line input[type='text'] { 
+  border-style: solid; 
+  font-size: 18px; 
+  padding: 4px 0 4px 15px; 
+  border-width: 2px; 
+  border-radius: 5px; 
+  color: #8a8a8a; 
+  background-color: #ffffff; 
+  border-color: #dbdbdb;  
+} 
+.form-line input[type='text']:focus { 
+  outline:none; 
+} 
+.form-line select {
+  font-size: 16px;
+  height: 30px;
+  width: 175px;
+  padding: 1px 20px;
+}
+.form-line input[type='date']::-webkit-inner-spin-button {
+  display: none;
+}
+.form-line input[type='date'] {
+  font-size: 18px;
+  border: 1px solid #ecf0f1;
+  background: #ecf0f1;
+  padding: 5px;
+}
+ input[type="checkbox"] {
+  width: 34px;
+  height: 34px;
+}
+.checkbox input:hover {
+  cursor: pointer;
 }
 .dollar {
-position: relative;
+  position: relative;
+  width: 175px;
+}
+.dollar input {
+  width: 100%;
+}
+.dollar input:invalid {
+  outline-color: red;
 }
 .dollar:before {
-content: "$";
-position: absolute;
-left: 5px;
-top: 1px;
-color: gray;
+  font-family: 'Helvetica', arial, sans-serif;
+  font-size: 18px;
+  content: '$';
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  color: gray;
 }
+/* .error-msg {
+  height: 17px;
+  font-size: 14px;
+  color: red;
+  margin: 5px;
+} */
