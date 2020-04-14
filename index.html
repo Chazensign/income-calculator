@@ -9,10 +9,10 @@
   <body>
     <script src="index.js"></script>
     <section id="main-container">
-      <form>
+      <form action="#">
         <div class="form-line">
           <label for="sel-state">State</label>
-          <select name="state" id="sel-state">
+          <select name="state" id="sel-state" onchange="stateSelected(event)">
             <option value="null">Select</option>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
@@ -71,9 +71,10 @@
           </select>
         </div>
         <div class="form-line">
-          <label for="date">Paycheck Date</label>
-          <input type="date" id="date" />
+          <label for="datePicker">Paycheck Date</label>
+          <input type="date" id="datePicker" />
         </div>
+        <div><h3>General Information</h3><hr/></div>
         <div class="form-line">
           <label for="pay" id="*pay">Gross Pay</label>
           <div class="dollar">
@@ -88,7 +89,7 @@
         </div>
         <div class="form-line">
           <label for="method">Gross Pay Method</label>
-          <select name="pay-method" id="method">
+          <select name="pay-method" id="method" style="overflow: hidden !important; width: 150px;">
             <option value="">Annually</option>
             <option value="">Pay Per Period</option>
           </select>
@@ -104,10 +105,9 @@
             />
           </div>
         </div>
-
         <div class="form-line">
           <label for="freq">Pay Frequency</label>
-          <select name="frequency" id="freq">
+          <select name="frequency" id="freq" style="overflow: hidden !important; width: 150px;">
             <option value="">Daily</option>
             <option value="">Weekly</option>
             <option value="">Weekly(53)</option>
@@ -120,85 +120,135 @@
             <option value="">Annually</option>
           </select>
         </div>
-        <div class="form-line checkbox">
-          <label for="use-w4">Use 2020 W4</label>
+        <div class="form-line">
+          <label class="info" for="use-w4">Use 2020 W4</label>
           <input type="checkbox" id="use-w4"/>
+          <label class="check" for="use-w4"></label>
         </div>
         <div class="form-line">
           <label for="fed-stat">Federal Filing Status</label>
-          <select name="fed-status" id="fed_stat"></select>
+          <select name="fed-status" id="fed_stat" style="overflow: hidden !important; width: 150px;">
+            <option value="single">Single</option>
+            <option value="married">Married</option>
+            <option value="married_separately">Married Filing Separately</option>
+            <option value="head_of_household">Head of Household</option>
+          </select>
         </div>
         <div class="form-line">
           <label for="state-stat"># of Federal Allowances</label>
-          <input type="text" />
+          <input type="number" />
         </div>
         <div class="form-line checkbox">
-          <label for="state-stat">Additional Federal Withholding</label>
-          <input type="checkbox" />
+          <label for="add-fed">Additional Federal Withholding</label>
+          <div class="dollar">
+            <input type="text" id="add-fed" onkeyup="numHandleChange(event)"/>
+          </div>
         </div>
-        <div class="form-line">
+        <!-- <div class="form-line">
           <label for="state-stat">State Filing Status</label>
           <select name="state-status" id="state-stat"></select>
-        </div>
-        <div class="form-line">
+        </div> -->
+        <!-- <div class="form-line">
           <label for="ded-type">Deduction Type</label>
           <input type="text" />
         </div>
         <div class="form-line">
           <label for="ded-type">Deduction Type</label>
           <input type="text" />
-        </div>
+        </div> -->
         <div class="form-line checkbox">
-          <label for="round-fed">Round Federal Withholding</label>
+          <label class="info" for="round-fed">Round Federal Withholding</label>
           <input id="round-fed" type="checkbox" />
+          <label class="check" for="round-fed"></label>
         </div>
         <div class="form-line checkbox">
-          <label for="">Deduction Type</label>
-          <input type="checkbox" />
+          <label class="info" for="ex-fed">Exempt from Federal</label>
+          <input type="checkbox" id="ex-fed" />
+          <label class="check" for="ex-fed"></label>
         </div>
         <div class="form-line checkbox">
-          <label for="ded-type">Deduction Type</label>
-          <input type="checkbox" />
+          <label class="info" for="ex-fica">Exempt from FICA</label>
+          <input type="checkbox" id="ex-fica"/>
+          <label class="check" for="ex-fica"></label>
         </div>
         <div class="form-line checkbox">
-          <label for="ded-type">Deduction Type</label>
-          <input type="checkbox" />
+          <label class="info" for="ex-med">Exempt from Medicare</label>
+          <input type="checkbox" id="ex-med"/>
+          <label class="check" for="ex-med"></label>
+        </div>
+        <div><h3>State and Local Information</h3><hr/></div>
+        <div class="form-line">
+          <label class="info" for="ex-state">Exempt from State Tax</label>
+          <input type="checkbox" id="ex-state"/>
+          <label class="check" for="ex-state"></label>
         </div>
         <div class="form-line">
-          <label for="ded-type">Deduction Type</label>
-          <input type="text" />
+          <label for="add-state">Additional State Withholding</label>
+          <div class="dollar">
+            <input type="text" id="add-state" onkeyup="numHandleChange(event)"/>
+          </div>
         </div>
+        <div class="form-line ">
+          <label for="state-file">State Filing Status</label>
+          <select name="state-file" id="state-file" style="overflow: hidden !important; width: 150px;">
+            <option value="single">Single</option>
+            <option value="married">Married</option>
+            <option value="married_separately">Married Filing Separately</option>
+            <option value="head_of_household">Head of Household</option>
+          </select>
+        </div>
+        <div><h3>Voluntary Deductions</h3><hr/></div>
         <div class="form-line">
-          <label for="ded-type">Deduction Type</label>
-          <select name="deduct-type" id="ded-type"></select>
-        </div>
-        <div class="form-line">
-          <label for="ded-type">Deduction Type</label>
-          <input type="text" />
-        </div>
-        <div class="form-line">
-          <label for="ded-type">Deduction Type</label>
-          <input type="text" />
+          <label for="ded-name">Deduction Name</label>
+          <input type="text" id="ded-name" />
         </div>
         <div class="form-line checkbox">
           <label for="ded-type">Deduction Type</label>
-          <input type="checkbox" />
+          <select id="ded-type" style="overflow: hidden !important; width: 150px;">
+            <option value="%">% of Gross Pay</option>
+            <option value="">% of Net Pay</option>
+            <option value="">$ Fixed Amount</option>
+            <option value="">$ Hourly Rate</option>
+          </select>
         </div>
         <div class="form-line checkbox">
-          <label for="ded-type">Deduction Type</label>
-          <input type="checkbox" />
+          <label class="info" for="ded-amount">Deduction Amount</label>
+          <div class="dollar" id="ded-amount">
+            <input type="text" />
+          </div>
         </div>
         <div class="form-line checkbox">
-          <label for="ded-type">Deduction Type</label>
-          <input type="checkbox" />
+          <label class="info" for="ded-ytd-amount">Year to Date Amount</label>
+          <div class="dollar">
+            <input type="text" id="ded-ytd-amount" />
+          </div>
         </div>
         <div class="form-line checkbox">
-          <label for="ded-type">Deduction Type</label>
-          <input type="checkbox" />
+          <label class="info" for="ded-ex-fed">Exempt from Federal</label>
+          <input type="checkbox" id="ded-ex-fed" />
+          <label class="check" for="ded-ex-fed"></label>
         </div>
-        <button>Submit</button>
-        <button type="reset">Clear</button>
+        <div class="form-line checkbox">
+          <label class="info" for="ded-ex-fica">Exempt from FICA</label>
+          <input type="checkbox" id="ded-ex-fica" />
+          <label class="check" for="ded-ex-fica"></label>
+        </div>
+        <div class="form-line checkbox">
+          <label class="info" for="ded-ex-state">Exempt from State</label>
+          <input type="checkbox" id="ded-ex-state" />
+          <label class="check" for="ded-ex-state"></label>
+        </div>
+        <div class="form-line checkbox">
+          <label for="ded-ex-loc">Exempt from Local</label>
+          <input type="checkbox" id="ded-ex-loc" />
+          <label class="check" for="ded-ex-loc"></label>
+        </div>
+        <div class="button-cont">
+          <button>Submit</button>
+          <button type="reset">Clear</button>
+        </div>
       </form>
     </section>
+    <script src="onRender.js"></script>
   </body>
 </html>

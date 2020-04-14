@@ -8,3 +8,8 @@ function numHandleChange(e) {
     document.getElementById(e.target.name).setCustomValidity('')
   }
 }
+
+function stateSelected(e) {
+  console.log(e.target.value)
+  let state = e.target.value
+}
