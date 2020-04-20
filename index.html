@@ -7,7 +7,7 @@
     <title>Income Calculator</title>
   </head>
   <body>
-    <script src="index.js"></script>
+   
     <section id="main-container">
       <form action="#">
         <div class="form-line">
@@ -84,7 +84,6 @@
               id="pay"
               onkeyup="numHandleChange(event)"
             />
-            <!-- <p class='error-msg' id="pay-err"></p> -->
           </div>
         </div>
         <div class="form-line">
@@ -94,7 +93,7 @@
             <option value="">Pay Per Period</option>
           </select>
         </div>
-        <div class="form-line">
+        <!-- <div class="form-line">
           <label for="pay-ytd" id="*pay-ytd">Gross Pay YTD</label>
           <div class="dollar">
             <input
@@ -104,30 +103,30 @@
               onkeyup="numHandleChange(event)"
             />
           </div>
-        </div>
+        </div> -->
         <div class="form-line">
           <label for="freq">Pay Frequency</label>
           <select name="frequency" id="freq" style="overflow: hidden !important; width: 150px;">
-            <option value="">Daily</option>
-            <option value="">Weekly</option>
-            <option value="">Weekly(53)</option>
-            <option value="">Bi-weekly</option>
-            <option value="">Bi-weekly(27)</option>
-            <option value="">Semi-monthly</option>
-            <option value="">Monthly</option>
-            <option value="">Quarterly</option>
-            <option value="">Semi-annually</option>
-            <option value="">Annually</option>
+            <option value=365 >Daily</option>
+            <option value=52 >Weekly</option>
+            <option value=53>Weekly(53)</option>
+            <option value=26>Bi-weekly</option>
+            <option value=27>Bi-weekly(27)</option>
+            <option value=24>Semi-monthly</option>
+            <option value=12>Monthly</option>
+            <option value=4>Quarterly</option>
+            <option value=2>Semi-annually</option>
+            <option value=1>Annually</option>
           </select>
         </div>
-        <div class="form-line">
+        <!-- <div class="form-line">
           <label class="info" for="use-w4">Use 2020 W4</label>
           <input type="checkbox" id="use-w4"/>
           <label class="check" for="use-w4"></label>
-        </div>
+        </div> -->
         <div class="form-line">
           <label for="fed-stat">Federal Filing Status</label>
-          <select name="fed-status" id="fed_stat" style="overflow: hidden !important; width: 150px;">
+          <select required name="fed-status" id="fed-stat" style="overflow: hidden !important; width: 150px;">
             <option value="single">Single</option>
             <option value="married">Married</option>
             <option value="married_separately">Married Filing Separately</option>
@@ -136,7 +135,7 @@
         </div>
         <div class="form-line">
           <label for="state-stat"># of Federal Allowances</label>
-          <input type="number" />
+          <input id="fed-allow" type="number" />
         </div>
         <div class="form-line checkbox">
           <label for="add-fed">Additional Federal Withholding</label>
@@ -144,18 +143,6 @@
             <input type="text" id="add-fed" onkeyup="numHandleChange(event)"/>
           </div>
         </div>
-        <!-- <div class="form-line">
-          <label for="state-stat">State Filing Status</label>
-          <select name="state-status" id="state-stat"></select>
-        </div> -->
-        <!-- <div class="form-line">
-          <label for="ded-type">Deduction Type</label>
-          <input type="text" />
-        </div>
-        <div class="form-line">
-          <label for="ded-type">Deduction Type</label>
-          <input type="text" />
-        </div> -->
         <div class="form-line checkbox">
           <label class="info" for="round-fed">Round Federal Withholding</label>
           <input id="round-fed" type="checkbox" />
@@ -176,11 +163,13 @@
           <input type="checkbox" id="ex-med"/>
           <label class="check" for="ex-med"></label>
         </div>
-        <div><h3>State and Local Information</h3><hr/></div>
-        <div class="form-line">
-          <label class="info" for="ex-state">Exempt from State Tax</label>
-          <input type="checkbox" id="ex-state"/>
-          <label class="check" for="ex-state"></label>
+        <div id="state-tax" style="display: none">
+          <div><h3>State and Local Information</h3><hr/></div>
+          <div class="form-line">
+            <label class="info" for="ex-state">Exempt from State Tax</label>
+            <input type="checkbox" id="ex-state"/>
+            <label class="check" for="ex-state"></label>
+          
         </div>
         <div class="form-line">
           <label for="add-state">Additional State Withholding</label>
@@ -196,6 +185,7 @@
             <option value="married_separately">Married Filing Separately</option>
             <option value="head_of_household">Head of Household</option>
           </select>
+        </div>
         </div>
         <div><h3>Voluntary Deductions</h3><hr/></div>
         <div class="form-line">
@@ -244,11 +234,28 @@
           <label class="check" for="ded-ex-loc"></label>
         </div>
         <div class="button-cont">
-          <button>Submit</button>
+          <button onclick="onSubmit(event)">Submit</button>
           <button type="reset">Clear</button>
         </div>
       </form>
     </section>
+    <section>
+      <h2>Annually</h2>
+      <h3 id="annual-federal" >Federal:</h3>
+      <h3 id="annual-fica" >FICA:</h3>
+      <h3 id="annual-social" >Social Security:</h3>
+      <h3 id="annual-medicare" >Medicare:</h3>
+      <h3 id="annual-state" >State:</h3>
+      <h3 id="annual-net" >Net Pay:</h3>
+      <h2>Paycheck</h2>
+      <h3 id="per_pay_period-federal" >Federal:</h3>
+      <h3 id="per_pay_period-fica">FICA:</h3>
+      <h3 id="per_pay_period-">Social Security:</h3>
+      <h3 id="per_pay_period-">Medicare:</h3>
+      <h3 id="per_pay_period-state" >State:</h3>
+      <h3>Net Pay:</h3>
+    </section>
     <script src="onRender.js"></script>
+     <script src="index.js"></script>
   </body>
 </html>
