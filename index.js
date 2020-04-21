@@ -21,7 +21,7 @@ async function stateSelected(e) {
   const myHeaders = new Headers()
   myHeaders.append(
     'Authorization',
-    'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUElfS0VZX01BTkFHRVIiLCJodHRwOi8vdGF4ZWUuaW8vdXNlcl9pZCI6IjVlODM1NzU2ZjEyNWY2MTQ3MmMyM2EyNyIsImh0dHA6Ly90YXhlZS5pby9zY29wZXMiOlsiYXBpIl0sImlhdCI6MTU4NTY2NTg3OH0.vsbJoLxS5IOw01bgs6wuVOcwZVjOfgmBGRBqq8dRlYg'
+    ''
   )
 
   var requestOptions = {
@@ -46,19 +46,25 @@ async function stateSelected(e) {
 }
 
 function displayRes(resObj) {
-  for (const property in resObj) {
-    for (const key in property) {
-      document.getElementById(`${property}-${key}`)
-    }
-  }
+  Object.keys(resObj).forEach(loc => {
+    Object.keys(resObj[loc]).forEach(key => {
+      let dispLine = document.getElementById(`${loc}-${key}`)
+      dispLine.innerText = `$${resObj[loc][key].amount.toFixed(2)}`
+    })
+  })
 }
 
 async function onSubmit(e) {
   e.preventDefault()
   let socialSec = 0
   let medicare = 0
-  const payFrequency = document.getElementById('freq').value
-  const grossInput = document.getElementById('pay').value
+  let payFrequency = document.getElementById('freq').value
+  let grossInput = document.getElementById('pay').value
+  let method = document.getElementById('method').value
+  let exemptions = document.getElementById('fed-allow').value
+  if (!payFrequency || !grossInput || !method || !state) {
+    return alert('Please fill out required fields.')
+  }
   if (+grossInput > 137700) {
     socialSec = 8537.40
   }else {
@@ -78,11 +84,17 @@ async function onSubmit(e) {
   myHeaders.append('Content-Type', 'application/x-www-form-urlencoded')
 
   var urlencoded = new URLSearchParams()
-  urlencoded.append('pay_rate', grossInput)
+  if (method === 'annual') {
+    urlencoded.append('pay_rate', (+grossInput/payFrequency))
+  } else {
+    urlencoded.append('pay_rate', grossInput)
+
+  }
   urlencoded.append('filing_status', document.getElementById('fed-stat').value)
   urlencoded.append('state', state)
-  urlencoded.append('pay_periods', document.getElementById('freq').value)
-  urlencoded.append('exemptions', document.getElementById('fed-allow').value)
+  urlencoded.append('pay_periods', payFrequency)
+  exemptions ? urlencoded.append('exemptions', exemptions) : null
+  
 
   var requestOptions = {
     method: 'POST',
@@ -91,26 +103,26 @@ async function onSubmit(e) {
     redirect: 'follow',
   }
 
-  fetch('https://taxee.io/api/v2/calculate/2020', requestOptions)
+  fetch(`https://taxee.io/api/v2/calculate/${year}`, requestOptions)
     .then((response) => response.text())
     .then(result => {
       const res = JSON.parse(result)
-      res.annual.social = {amount: socialSec}
-      res.annual.medicare = {amount: medicare}
       let annualDeductions = 0
       for (const key in res.annual) {
         annualDeductions += res.annual[key].amount 
       }
+      res.annual.social = {amount: socialSec}
+      res.annual.medicare = {amount: medicare}
+      console.log(annualDeductions);
       res.annual.net = {amount: +grossInput - annualDeductions}
-      res.per_pay_period.social = {amount: socialSec / payFrequency}
-      res.per_pay_period.medicare = {amount: medicare / payFrequency}
       let periodDeductions = 0
       for (const key in res.per_pay_period) {
         periodDeductions += res.per_pay_period[key].amount
       }
+      res.per_pay_period.social = {amount: socialSec / payFrequency}
+      res.per_pay_period.medicare = {amount: medicare / payFrequency}
       res.per_pay_period.net = {amount: (+grossInput / payFrequency) - periodDeductions}
-      // displayRes(result)
-      console.log(res)
+      displayRes(res)
     })
     .catch((error) => console.log('error', error))
 }

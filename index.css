@@ -1,11 +1,11 @@
 * {
+  color: #424242;
   box-sizing: border-box;
   font-family: 'Helvetica', arial, sans-serif;
 }
 #main-container {
   font-size: 14px;
   font-weight: 500;
-  color: #424242;
   display: flex;
   flex-direction: column;
   width: 400px;
@@ -91,7 +91,7 @@ input[type='number']::-webkit-inner-spin-button {
   border: 1px solid #ecf0f1;
   border-radius: 5px;
   background: #ecf0f1;
-  width: 300px;
+  width: 165px;
   padding: 5px;
 }
 .dollar {
@@ -138,11 +138,23 @@ button:active {
 	position:relative;
 	top:1px;
 }
+h2 {
+  text-decoration: underline;
+}
 h3 {
+  display: flex;
+  margin: 15px 0 5px 5px;
+}
+h4 {
   margin: 15px 0 5px 5px;
 }
 hr {
   color: #424242;
+}
+.total-line {
+  width: 120px;
+  margin: 0;
+  justify-self: flex-start;
 }
 /* .error-msg {
   height: 17px;
@@ -150,3 +162,22 @@ hr {
   color: red;
   margin: 5px;
 } */
+.results {
+  width: 400px;
+}
+.fica-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.fica-total {
+  margin: 5px;
+}
+h5 {
+  display: flex;
+  margin: 5px;
+}
+p {
+  margin: 0;
+  font-weight: 400;
+}

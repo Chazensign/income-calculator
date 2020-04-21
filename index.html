@@ -7,12 +7,11 @@
     <title>Income Calculator</title>
   </head>
   <body>
-   
     <section id="main-container">
       <form action="#">
         <div class="form-line">
           <label for="sel-state">State</label>
-          <select name="state" id="sel-state" onchange="stateSelected(event)">
+          <select required name="state" id="sel-state" onchange="stateSelected(event)">
             <option value="null">Select</option>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
@@ -89,8 +88,8 @@
         <div class="form-line">
           <label for="method">Gross Pay Method</label>
           <select name="pay-method" id="method" style="overflow: hidden !important; width: 150px;">
-            <option value="">Annually</option>
-            <option value="">Pay Per Period</option>
+            <option value="annual">Annually</option>
+            <option value="perPeriod">Pay Per Period</option>
           </select>
         </div>
         <!-- <div class="form-line">
@@ -107,6 +106,7 @@
         <div class="form-line">
           <label for="freq">Pay Frequency</label>
           <select name="frequency" id="freq" style="overflow: hidden !important; width: 150px;">
+            <option value=null >Select One</option>
             <option value=365 >Daily</option>
             <option value=52 >Weekly</option>
             <option value=53>Weekly(53)</option>
@@ -239,21 +239,27 @@
         </div>
       </form>
     </section>
-    <section>
+    <section class="results">
       <h2>Annually</h2>
-      <h3 id="annual-federal" >Federal:</h3>
-      <h3 id="annual-fica" >FICA:</h3>
-      <h3 id="annual-social" >Social Security:</h3>
-      <h3 id="annual-medicare" >Medicare:</h3>
-      <h3 id="annual-state" >State:</h3>
-      <h3 id="annual-net" >Net Pay:</h3>
+      <h4>Federal Tax - <p id="annual-federal"></p></h4>
+      <div class="fica-info">
+        <h5>Social Security - <p id="annual-social"></p></h5>
+        <h5>Medicare - <p id="annual-medicare"></p></h5>
+        <hr class="total-line"/>
+        <h5 class="fica-total">FICA Total - <p id="annual-fica"></p></h5>
+      </div>
+      <h4>State - <p id="annual-state"></p></h4>
+      <h4>Net Pay - <p id="annual-net" ></p></h4>
       <h2>Paycheck</h2>
-      <h3 id="per_pay_period-federal" >Federal:</h3>
-      <h3 id="per_pay_period-fica">FICA:</h3>
-      <h3 id="per_pay_period-">Social Security:</h3>
-      <h3 id="per_pay_period-">Medicare:</h3>
-      <h3 id="per_pay_period-state" >State:</h3>
-      <h3>Net Pay:</h3>
+      <h4>Federal Tax - <p id="per_pay_period-federal"></p></h4>
+      <div class="fica-info">
+        <h5>Social Security - <p id="per_pay_period-social"></p></h5>
+        <h5>Medicare - <p id="per_pay_period-medicare"></p></h5>
+      </div>
+      <hr class="total-line"/>
+      <h5 class="fica-total">FICA Total - </h5><p id="per_pay_period-fica"></p>
+      <h4>State - <p id="per_pay_period-state"></p></h4>
+      <h4>Net Pay - <p id="per_pay_period-net"></p></h4>
     </section>
     <script src="onRender.js"></script>
      <script src="index.js"></script>
