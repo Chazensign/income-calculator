@@ -143,20 +143,20 @@
             <input type="text" id="add-fed" onkeyup="numHandleChange(event)"/>
           </div>
         </div>
-        <div class="form-line checkbox">
+        <!-- <div class="form-line checkbox">
           <label class="info" for="round-fed">Round Federal Withholding</label>
           <input id="round-fed" type="checkbox" />
           <label class="check" for="round-fed"></label>
-        </div>
+        </div> -->
         <div class="form-line checkbox">
           <label class="info" for="ex-fed">Exempt from Federal</label>
           <input type="checkbox" id="ex-fed" />
           <label class="check" for="ex-fed"></label>
         </div>
         <div class="form-line checkbox">
-          <label class="info" for="ex-fica">Exempt from FICA</label>
-          <input type="checkbox" id="ex-fica"/>
-          <label class="check" for="ex-fica"></label>
+          <label class="info" for="ex-soc">Exempt from FICA</label>
+          <input type="checkbox" id="ex-soc"/>
+          <label class="check" for="ex-soc"></label>
         </div>
         <div class="form-line checkbox">
           <label class="info" for="ex-med">Exempt from Medicare</label>
@@ -171,7 +171,8 @@
             <label class="check" for="ex-state"></label>
           
         </div>
-        <div class="form-line">
+      </div>
+        <!-- <div class="form-line">
           <label for="add-state">Additional State Withholding</label>
           <div class="dollar">
             <input type="text" id="add-state" onkeyup="numHandleChange(event)"/>
@@ -232,34 +233,79 @@
           <label for="ded-ex-loc">Exempt from Local</label>
           <input type="checkbox" id="ded-ex-loc" />
           <label class="check" for="ded-ex-loc"></label>
-        </div>
+        </div> -->
         <div class="button-cont">
           <button onclick="onSubmit(event)">Submit</button>
           <button type="reset">Clear</button>
         </div>
       </form>
     </section>
-    <section class="results">
+    <section id="results" style="display: none">
       <h2>Annually</h2>
-      <h4>Federal Tax - <p id="annual-federal"></p></h4>
-      <div class="fica-info">
-        <h5>Social Security - <p id="annual-social"></p></h5>
-        <h5>Medicare - <p id="annual-medicare"></p></h5>
-        <hr class="total-line"/>
-        <h5 class="fica-total">FICA Total - <p id="annual-fica"></p></h5>
+      <div class="res-line" >
+        <h4>Gross Pay - </h4>
+        <p id="annual-gross"></p>
       </div>
-      <h4>State - <p id="annual-state"></p></h4>
-      <h4>Net Pay - <p id="annual-net" ></p></h4>
+      <div class="res-line" >
+        <h4>Federal Tax - </h4>
+        <p id="annual-federal"></p>
+      </div>
+      <div class="fica-info">
+        <div class="res-line" >
+          <h5>Social Security - </h5>
+          <p id="annual-social"></p>
+        </div>
+        <div class="res-line" >
+          <h5>Medicare - </h5>
+          <p id="annual-medicare"></p>
+        </div>
+        <div class="res-line" >
+          <hr class="total-line"/>
+          <h5 class="fica-total">FICA Total - </h5>
+          <p id="annual-fica"></p>
+        </div>
+      </div>
+      <div class="res-line" >
+        <h4>State - </h4>
+        <p id="annual-state"></p>
+      </div>
+      <div class="res-line" >
+        <h4>Net Pay - </h4>
+        <p id="annual-net" ></p>
+      </div>
       <h2>Paycheck</h2>
-      <h4>Federal Tax - <p id="per_pay_period-federal"></p></h4>
-      <div class="fica-info">
-        <h5>Social Security - <p id="per_pay_period-social"></p></h5>
-        <h5>Medicare - <p id="per_pay_period-medicare"></p></h5>
+      <div class="res-line" >
+        <h4>Gross Pay - </h4>
+        <p id="per_pay_period-gross"></p>
       </div>
-      <hr class="total-line"/>
-      <h5 class="fica-total">FICA Total - </h5><p id="per_pay_period-fica"></p>
-      <h4>State - <p id="per_pay_period-state"></p></h4>
-      <h4>Net Pay - <p id="per_pay_period-net"></p></h4>
+      <div class="res-line" >
+        <h4>Federal Tax - </h4>
+        <p id="per_pay_period-federal"></p>
+      </div>
+      <div class="fica-info">
+        <div class="res-line" >
+          <h5>Social Security - </h5>
+          <p id="per_pay_period-social"></p>
+        </div>
+        <div class="res-line" >
+          <h5>Medicare - </h5>
+          <p id="per_pay_period-medicare"></p>
+        </div>
+      </div>
+      <div class="res-line" >
+        <hr class="total-line"/>
+        <h5 class="fica-total">FICA Total - </h5>
+        <p id="per_pay_period-fica"></p>
+      </div>
+      <div class="res-line" >
+        <h4>State - </h4>
+        <p id="per_pay_period-state"></p>
+      </div>
+      <div class="res-line" >
+        <h4>Net Pay - </h4>
+        <p id="per_pay_period-net"></p>
+      </div>
+      <button onclick="goBack(event)">Back</button>
     </section>
     <script src="onRender.js"></script>
      <script src="index.js"></script>
