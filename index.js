@@ -90,7 +90,7 @@ async function onSubmit(e) {
   let myHeaders = new Headers()
   myHeaders.append(
     'Authorization',
-    ''
+    'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUElfS0VZX01BTkFHRVIiLCJodHRwOi8vdGF4ZWUuaW8vdXNlcl9pZCI6IjVlODM1NzU2ZjEyNWY2MTQ3MmMyM2EyNyIsImh0dHA6Ly90YXhlZS5pby9zY29wZXMiOlsiYXBpIl0sImlhdCI6MTU4NzQ0NDUyN30.hHuqcLhdd5JObKHvbQhMNNGetoILQcWpxOXMdxZ2_HE'
   )
   myHeaders.append('Content-Type', 'application/x-www-form-urlencoded')
 
