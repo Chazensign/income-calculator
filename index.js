@@ -146,14 +146,22 @@ function getWithholdings() {
   let preTax = []
   let postTax = []
   for (let i = 0; i < fedWithsArr.length; i++) {
-    
     console.log(fedWithsArr[i].querySelectorAll('input, select'))
     let inputs = fedWithsArr[i].querySelectorAll('input, select')
-    return {
-      name: inputs[0].value,
-      amount: inputs[1].value,
-      preTax: inputs[2].value,
-      frequency: inputs[3].value
+    if (inputs[3].checked === true) {
+      preTax.push({
+        name: inputs[0].value,
+        amount: +inputs[1].value,
+        frequency: inputs[2].value,
+        preTax: inputs[3].checked,
+      })
+    } else {
+      postTax.push({
+        name: inputs[0].value,
+        amount: +inputs[1].value,
+        frequency: inputs[2].value,
+        preTax: inputs[3].checked,
+      })
     }
   }
   return {
@@ -163,10 +171,24 @@ function getWithholdings() {
 }
 
 function displayRes(resObj) {
+  console.log(resObj)
+
   Object.keys(resObj).forEach((loc) => {
     Object.keys(resObj[loc]).forEach((key) => {
-      let dispLine = document.getElementById(`${loc}-${key}`)
-      dispLine.innerText = `$${resObj[loc][key].amount.toFixed(2)}`
+      if (key === 'preWiths' || key === 'postWiths') {
+        let withElement = document.getElementById(`${key}`)
+        loc.key.forEach((withhold, i) => {
+          withElement.appendChild(`<div class="res-line">
+        <h4>${withhold.name} -</h4>
+        <p id="annual-federal">${withhold.amount}</p>
+      </div>`)
+        })
+      } else {
+        console.log(resObj[loc], key)
+        let dispLine = document.getElementById(`${loc}-${key}`)
+        
+        dispLine.innerText = `$${resObj[loc][key].amount.toFixed(2)}`
+      }
     })
   })
   const results = document.getElementById('results')
@@ -177,9 +199,9 @@ function displayRes(resObj) {
 
 async function onSubmit(e) {
   e.preventDefault()
-  const withholdings = getWithholdings()
-  console.log(withholdings);
-  
+  const fedWithholdings = getWithholdings()
+  console.log(fedWithholdings)
+
   let socialSec = 0
   let medicare = 0
   let payFrequency = document.getElementById('freq').value
@@ -190,10 +212,36 @@ async function onSubmit(e) {
   const socExempt = document.getElementById('ex-soc').checked
   const medExempt = document.getElementById('ex-med').checked
   const stateExempt = document.getElementById('ex-state').checked
-  const addFedHold = document.getElementById('add-fed').value
 
   if (!payFrequency || !grossInput || !method || !state) {
     return alert('Please fill out required fields.')
+  }
+  let preFedWithTotal = 0
+  let postFedWithTotal = 0
+  const annPreTax = fedWithholdings.preTax.map((WH) => {
+    if (WH.frequency === 'perPeriod') {
+      return { ...WH, amount: WH.amount * payFrequency }
+    } else {
+      return WH
+    }
+  })
+  // const annPreTax = fedWithholdings.preTax.filter(
+  //   (WH) => WH.frequency === 'annual'
+  // )
+  const annPostTax = fedWithholdings.postTax.map((WH) => {
+    if (WH.frequency === 'perPeriod') {
+      return { ...WH, amount: WH.amount * payFrequency }
+    } else {
+      return WH
+    }
+  })
+  if (fedWithholdings.lenght > 0) {
+    preFedWithTotal = annPreTax.reduce((acc, WH) => {
+      acc + WH.amount
+    }, 0)
+    postFedWithTotal = annPostTax.reduce((acc, WH) => {
+      acc + WH.amount
+    }, 0)
   }
   if (method === 'perPeriod') {
     grossInput *= payFrequency
@@ -217,15 +265,10 @@ async function onSubmit(e) {
   myHeaders.append('Content-Type', 'application/x-www-form-urlencoded')
 
   var urlencoded = new URLSearchParams()
-  // if (method === 'annual') {
-  // } else {
-  //   urlencoded.append('pay_rate', grossInput)
-  // }
-  urlencoded.append('pay_rate', grossInput / payFrequency)
+  urlencoded.append('pay_rate', (grossInput - preFedWithTotal) / payFrequency)
   urlencoded.append('filing_status', document.getElementById('fed-stat').value)
   urlencoded.append('state', state)
   urlencoded.append('pay_periods', payFrequency)
-  exemptions ? urlencoded.append('exemptions', exemptions) : null
 
   var requestOptions = {
     method: 'POST',
@@ -239,6 +282,7 @@ async function onSubmit(e) {
     .then((result) => {
       const res = JSON.parse(result)
       let annualDeductions = 0
+      res.annual.postFedWithTotal = {amount: postFedWithTotal}
       res.annual.federal.amount = fedExempt ? 0 : res.annual.federal.amount
       res.annual.state.amount = stateExempt ? 0 : res.annual.state.amount
       res.annual.social = { amount: socExempt ? 0 : socialSec }
@@ -250,6 +294,10 @@ async function onSubmit(e) {
         else annualDeductions += res.annual[key].amount
       }
       res.annual.gross = { amount: grossInput }
+      res.annual.preWiths = annPreTax
+      res.annual.taxableGross = {amount: grossInput - preFedWithTotal}
+      res.annual.postWiths = annPostTax
+
       res.annual.net = { amount: grossInput - annualDeductions }
       let periodDeductions = 0
       res.per_pay_period.social = {
