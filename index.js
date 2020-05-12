@@ -146,7 +146,6 @@ function getWithholdings() {
   let preTax = []
   let postTax = []
   for (let i = 0; i < fedWithsArr.length; i++) {
-    console.log(fedWithsArr[i].querySelectorAll('input, select'))
     let inputs = fedWithsArr[i].querySelectorAll('input, select')
     if (inputs[3].checked === true) {
       preTax.push({
@@ -171,22 +170,24 @@ function getWithholdings() {
 }
 
 function displayRes(resObj) {
-  console.log(resObj)
 
   Object.keys(resObj).forEach((loc) => {
     Object.keys(resObj[loc]).forEach((key) => {
       if (key === 'preWiths' || key === 'postWiths') {
-        let withElement = document.getElementById(`${key}`)
-        loc.key.forEach((withhold, i) => {
-          withElement.appendChild(`<div class="res-line">
-        <h4>${withhold.name} -</h4>
-        <p id="annual-federal">${withhold.amount}</p>
-      </div>`)
+        let withElement = document.getElementById(`${loc}-${key}`)
+
+        resObj[loc][key].forEach((withhold, i) => {
+          withElement.insertAdjacentHTML(
+            'beforeend',
+            `<div class="res-line">
+            <h5>${withhold.name} -</h5>
+            <p id="annual-federal">$${withhold.amount.toFixed(2)}</p>
+            </div>`
+          )
         })
       } else {
-        console.log(resObj[loc], key)
+        // console.log(resObj[loc], key)
         let dispLine = document.getElementById(`${loc}-${key}`)
-        
         dispLine.innerText = `$${resObj[loc][key].amount.toFixed(2)}`
       }
     })
@@ -218,6 +219,7 @@ async function onSubmit(e) {
   }
   let preFedWithTotal = 0
   let postFedWithTotal = 0
+
   const annPreTax = fedWithholdings.preTax.map((WH) => {
     if (WH.frequency === 'perPeriod') {
       return { ...WH, amount: WH.amount * payFrequency }
@@ -225,9 +227,7 @@ async function onSubmit(e) {
       return WH
     }
   })
-  // const annPreTax = fedWithholdings.preTax.filter(
-  //   (WH) => WH.frequency === 'annual'
-  // )
+
   const annPostTax = fedWithholdings.postTax.map((WH) => {
     if (WH.frequency === 'perPeriod') {
       return { ...WH, amount: WH.amount * payFrequency }
@@ -235,14 +235,19 @@ async function onSubmit(e) {
       return WH
     }
   })
-  if (fedWithholdings.lenght > 0) {
+  if (fedWithholdings.preTax.length > 0 || fedWithholdings.postTax.length > 0) {
     preFedWithTotal = annPreTax.reduce((acc, WH) => {
-      acc + WH.amount
+      console.log(WH.amount)
+
+      return acc + WH.amount
     }, 0)
     postFedWithTotal = annPostTax.reduce((acc, WH) => {
-      acc + WH.amount
+      console.log(WH.amount)
+      return acc + WH.amount
     }, 0)
   }
+  console.log({preFedWithTotal}, {postFedWithTotal})
+  
   if (method === 'perPeriod') {
     grossInput *= payFrequency
   }
@@ -282,7 +287,7 @@ async function onSubmit(e) {
     .then((result) => {
       const res = JSON.parse(result)
       let annualDeductions = 0
-      res.annual.postFedWithTotal = {amount: postFedWithTotal}
+      res.annual.postFedWithTotal = { amount: postFedWithTotal }
       res.annual.federal.amount = fedExempt ? 0 : res.annual.federal.amount
       res.annual.state.amount = stateExempt ? 0 : res.annual.state.amount
       res.annual.social = { amount: socExempt ? 0 : socialSec }
@@ -294,11 +299,13 @@ async function onSubmit(e) {
         else annualDeductions += res.annual[key].amount
       }
       res.annual.gross = { amount: grossInput }
+      res.annual.preFedWithTotal = {amount: preFedWithTotal}
       res.annual.preWiths = annPreTax
-      res.annual.taxableGross = {amount: grossInput - preFedWithTotal}
+      res.annual.taxableGross = { amount: grossInput - preFedWithTotal }
       res.annual.postWiths = annPostTax
 
       res.annual.net = { amount: grossInput - annualDeductions }
+      res.annual.totalDed = { amount: annualDeductions }
       let periodDeductions = 0
       res.per_pay_period.social = {
         amount: socExempt ? 0 : socialSec / payFrequency,
@@ -319,9 +326,10 @@ async function onSubmit(e) {
       res.per_pay_period.gross = { amount: grossInput / payFrequency }
       res.per_pay_period.fica.amount =
         res.per_pay_period.social.amount + res.per_pay_period.medicare.amount
-      res.per_pay_period.net = {
-        amount: grossInput / payFrequency - periodDeductions,
-      }
+        res.per_pay_period.totalDed = { amount: periodDeductions }
+        res.per_pay_period.net = {
+          amount: grossInput / payFrequency - periodDeductions,
+        }
       displayRes(res)
     })
     .catch((error) => console.log('error', error))

@@ -31,13 +31,16 @@
   border-style: solid; 
   font-size: 18px; 
   width: 150px;
-  padding: 4px 0 4px 15px; 
+  padding: 4px 0 4px 3px; 
   border-width: 2px; 
   border-radius: 5px; 
   color: #424242; 
   background-color: #ffffff; 
   border-color: #dbdbdb;  
 } 
+.form-line .dollar input[type='text'] {
+  padding: 4px 0 4px 15px;
+}
 .form-line input[type='text']:focus { 
   outline: none; 
 } 
@@ -165,20 +168,12 @@ hr {
   align-self: center;
 }
 .total-line {
-  width: 200px;
-  margin: 0;
-  position: absolute;
-  top: 0px;
-  left: 10px;
-  /* justify-self: flex-start;
-  align-self: flex-end; */
+  width: 90%;
+    margin: 0;
+    position: absolute;
+    top: 0px;
+    left: 23px;
 }
-/* .error-msg {
-  height: 17px;
-  font-size: 14px;
-  color: red;
-  margin: 5px;
-} */
 #results {
   display: flex;
   flex-direction: column;
@@ -188,7 +183,8 @@ hr {
   padding: 0 20px 20px 20px;
   background: #f7faff;
 }
-.fica-info {
+.detail-info {
+  width: 90%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -197,9 +193,11 @@ hr {
   margin: 5px;
 }
 .res-line {
+  width: 100%;
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 .res-line h5 {
   display: flex;
@@ -211,4 +209,10 @@ hr {
 p {
   margin: 0 0 0 10px;
   font-weight: 400;
+}
+.with-title {
+  margin-top: 0;
+}
+.total {
+  padding: 0 18px 0 10px;
 }
