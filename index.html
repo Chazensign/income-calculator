@@ -8,10 +8,16 @@
   </head>
   <body>
     <section id="main-container">
-      <form action="#">
+      <form action="#" id="main-form"></form>
         <div class="form-line">
           <label for="sel-state">State</label>
-          <select required name="state" id="sel-state" onchange="stateSelected(event)">
+          <select
+            form="main-form"
+            required
+            name="state"
+            id="sel-state"
+            onchange="stateSelected(event)"
+          >
             <option value="null">Select</option>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
@@ -71,13 +77,17 @@
         </div>
         <div class="form-line">
           <label for="datePicker">Paycheck Date</label>
-          <input type="date" id="datePicker" />
+          <input form="main-form" type="date" id="datePicker" />
         </div>
-        <div><h3>General Information</h3><hr/></div>
+        <div>
+          <h3>General Information</h3>
+          <hr />
+        </div>
         <div class="form-line">
           <label for="pay" id="*pay">Gross Pay</label>
           <div class="dollar">
             <input
+            form="main-form"
               type="text"
               name="pay"
               id="pay"
@@ -87,7 +97,12 @@
         </div>
         <div class="form-line">
           <label for="method">Gross Pay Method</label>
-          <select name="pay-method" id="method" style="overflow: hidden !important; width: 150px;">
+          <select
+          form="main-form"
+            name="pay-method"
+            id="method"
+            style="overflow: hidden !important; width: 150px;"
+          >
             <option value="annual">Annually</option>
             <option value="perPeriod">Pay Per Period</option>
           </select>
@@ -105,18 +120,23 @@
         </div> -->
         <div class="form-line">
           <label for="freq">Pay Frequency</label>
-          <select name="frequency" id="freq" style="overflow: hidden !important; width: 150px;">
-            <option value=null >Select One</option>
-            <option value=365 >Daily</option>
-            <option value=52 >Weekly</option>
-            <option value=53>Weekly(53)</option>
-            <option value=26>Bi-weekly</option>
-            <option value=27>Bi-weekly(27)</option>
-            <option value=24>Semi-monthly</option>
-            <option value=12>Monthly</option>
-            <option value=4>Quarterly</option>
-            <option value=2>Semi-annually</option>
-            <option value=1>Annually</option>
+          <select
+          form="main-form"
+            name="frequency"
+            id="freq"
+            style="overflow: hidden !important; width: 150px;"
+          >
+            <option value="null">Select One</option>
+            <option value="365">Daily</option>
+            <option value="52">Weekly</option>
+            <option value="53">Weekly(53)</option>
+            <option value="26">Bi-weekly</option>
+            <option value="27">Bi-weekly(27)</option>
+            <option value="24">Semi-monthly</option>
+            <option value="12">Monthly</option>
+            <option value="4">Quarterly</option>
+            <option value="2">Semi-annually</option>
+            <option value="1">Annually</option>
           </select>
         </div>
         <!-- <div class="form-line">
@@ -126,22 +146,32 @@
         </div> -->
         <div class="form-line">
           <label for="fed-stat">Federal Filing Status</label>
-          <select required name="fed-status" id="fed-stat" style="overflow: hidden !important; width: 150px;">
+          <select
+            required
+            form="main-form"
+            name="fed-status"
+            id="fed-stat"
+            style="overflow: hidden !important; width: 150px;"
+          >
             <option value="single">Single</option>
             <option value="married">Married</option>
-            <option value="married_separately">Married Filing Separately</option>
+            <option value="married_separately"
+              >Married Filing Separately</option
+            >
             <option value="head_of_household">Head of Household</option>
           </select>
         </div>
-        <div class="form-line">
+        <!-- <div class="form-line">
           <label for="state-stat"># of Federal Allowances</label>
           <input id="fed-allow" type="number" />
+        </div> -->
+        <form id="fed-form" ></form>
+        <div id="fed-withs-cont">
+        <div id="fed-check-cont" class="form-line checkbox">
+          <label class="info" for="ex-fed">Add Federal Withholdings</label>
+          <input form="main-form" type="checkbox" id="fed-with-check" onchange="addWithholding(event)" />
+          <label class="check" for="fed-with-check"></label>
         </div>
-        <div class="form-line checkbox">
-          <label for="add-fed">Additional Federal Withholding</label>
-          <div class="dollar">
-            <input type="text" id="add-fed" onkeyup="numHandleChange(event)"/>
-          </div>
         </div>
         <!-- <div class="form-line checkbox">
           <label class="info" for="round-fed">Round Federal Withholding</label>
@@ -150,35 +180,47 @@
         </div> -->
         <div class="form-line checkbox">
           <label class="info" for="ex-fed">Exempt from Federal</label>
-          <input type="checkbox" id="ex-fed" />
+          <input form="main-form" type="checkbox" id="ex-fed" />
           <label class="check" for="ex-fed"></label>
         </div>
         <div class="form-line checkbox">
           <label class="info" for="ex-soc">Exempt from FICA</label>
-          <input type="checkbox" id="ex-soc"/>
+          <input form="main-form" type="checkbox" id="ex-soc" />
           <label class="check" for="ex-soc"></label>
         </div>
         <div class="form-line checkbox">
           <label class="info" for="ex-med">Exempt from Medicare</label>
-          <input type="checkbox" id="ex-med"/>
+          <input form="main-form" type="checkbox" id="ex-med" />
           <label class="check" for="ex-med"></label>
         </div>
-        <div id="state-tax" style="display: none">
-          <div><h3>State and Local Information</h3><hr/></div>
+        <div id="state-tax" style="display: none;">
+          <div>
+            <h3>State and Local Information</h3>
+            <hr />
+          </div>
           <div class="form-line">
             <label class="info" for="ex-state">Exempt from State Tax</label>
-            <input type="checkbox" id="ex-state"/>
+            <input type="checkbox" id="ex-state" />
             <label class="check" for="ex-state"></label>
-          
-        </div>
-      </div>
-        <!-- <div class="form-line">
-          <label for="add-state">Additional State Withholding</label>
-          <div class="dollar">
-            <input type="text" id="add-state" onkeyup="numHandleChange(event)"/>
+          </div>
+          <div class="form-line">
+            <label for="add-state">Additional State Withholding</label>
+            <div class="dollar">
+              <input
+                type="text"
+                id="add-state"
+                onkeyup="numHandleChange(event)"
+              />
+            </div>
+          </div>
+          <div class="form-line">
+            <label for="add-state-name"
+              >Additional State Withholding Name</label
+            >
+            <input type="text" id="add-state-name" />
           </div>
         </div>
-        <div class="form-line ">
+        <!-- <div class="form-line ">
           <label for="state-file">State Filing Status</label>
           <select name="state-file" id="state-file" style="overflow: hidden !important; width: 150px;">
             <option value="single">Single</option>
@@ -235,79 +277,105 @@
           <label class="check" for="ded-ex-loc"></label>
         </div> -->
         <div class="button-cont">
-          <button onclick="onSubmit(event)">Submit</button>
-          <button type="reset">Clear</button>
+          <button form="main-form" onclick="onSubmit(event)">Submit</button>
+          <button form="main-form" type="reset">Clear</button>
         </div>
-      </form>
+
     </section>
-    <section id="results" style="display: none">
+    <section id="results" style="display: none;" >
       <h2>Annually</h2>
-      <div class="res-line" >
-        <h4>Gross Pay - </h4>
+      <div class="res-line">
+        <h4>Gross Income -</h4>
         <p id="annual-gross"></p>
       </div>
-      <div class="res-line" >
-        <h4>Federal Tax - </h4>
+      <h4 class="with-title">Pre-Tax Withholdings:</h4>
+      <div id="annual-preWiths" class="detail-info"></div>
+      <div class="res-line total">
+        <hr class="total-line" />
+          <h5>Pre-Tax Withholdings Total -</h5>
+      <p id="annual-preFedWithTotal"></p>
+      </div>
+      <div class="res-line">
+        <h4>Taxable Income -</h4>
+        <p id="annual-taxableGross"></p>
+      </div>
+      <div class="res-line">
+        <h4>Federal Tax -</h4>
         <p id="annual-federal"></p>
       </div>
-      <div class="fica-info">
-        <div class="res-line" >
-          <h5>Social Security - </h5>
+      <div class="detail-info">
+        <div class="res-line">
+          <h5>Social Security -</h5>
           <p id="annual-social"></p>
         </div>
-        <div class="res-line" >
-          <h5>Medicare - </h5>
+        <div class="res-line">
+          <h5>Medicare -</h5>
           <p id="annual-medicare"></p>
         </div>
-        <div class="res-line" >
-          <hr class="total-line"/>
-          <h5 class="fica-total">FICA Total - </h5>
-          <p id="annual-fica"></p>
-        </div>
       </div>
-      <div class="res-line" >
-        <h4>State - </h4>
+          <div class="res-line total">
+            <hr class="total-line" />
+            <h5 class="fica-total">FICA Total -</h5>
+            <p id="annual-fica"></p>
+          </div>
+      <h4 class="with-title">Post-Tax Withholdings:</h4>
+      <div id="annual-postWiths" class="detail-info"></div>
+      <div class="res-line total">
+        <hr class="total-line" />
+        <h5>Post-Tax Withholdings Total -</h5>
+        <p id="annual-postFedWithTotal"></p>
+      </div>
+      <div class="res-line">
+        <h4>State -</h4>
         <p id="annual-state"></p>
       </div>
-      <div class="res-line" >
-        <h4>Net Pay - </h4>
-        <p id="annual-net" ></p>
+      <div class="res-line">
+        <h4>Total Annual Deductions -</h4>
+        <p id="annual-totalDed"></p>
+      </div>
+      <div class="res-line">
+        <h4>Net Pay -</h4>
+        <p id="annual-net"></p>
       </div>
       <h2>Paycheck</h2>
-      <div class="res-line" >
-        <h4>Gross Pay - </h4>
+      <div class="res-line">
+        <h4>Gross Pay -</h4>
         <p id="per_pay_period-gross"></p>
       </div>
-      <div class="res-line" >
-        <h4>Federal Tax - </h4>
+      <div class="res-line">
+        <h4>Federal Tax -</h4>
         <p id="per_pay_period-federal"></p>
       </div>
-      <div class="fica-info">
-        <div class="res-line" >
-          <h5>Social Security - </h5>
+      <div class="detail-info">
+        <div class="res-line">
+          <h5>Social Security -</h5>
           <p id="per_pay_period-social"></p>
         </div>
-        <div class="res-line" >
-          <h5>Medicare - </h5>
+        <div class="res-line">
+          <h5>Medicare -</h5>
           <p id="per_pay_period-medicare"></p>
         </div>
       </div>
-      <div class="res-line" >
-        <hr class="total-line"/>
-        <h5 class="fica-total">FICA Total - </h5>
+      <div class="res-line total">
+        <hr class="total-line" />
+        <h5 class="fica-total">FICA Total -</h5>
         <p id="per_pay_period-fica"></p>
       </div>
-      <div class="res-line" >
-        <h4>State - </h4>
+      <div class="res-line">
+        <h4>State -</h4>
         <p id="per_pay_period-state"></p>
       </div>
-      <div class="res-line" >
-        <h4>Net Pay - </h4>
+      <div class="res-line">
+        <h4>Total Period Deductions -</h4>
+        <p id="per_pay_period-totalDed"></p>
+      </div>
+      <div class="res-line">
+        <h4>Net Pay -</h4>
         <p id="per_pay_period-net"></p>
       </div>
       <button onclick="goBack(event)">Back</button>
     </section>
     <script src="onRender.js"></script>
-     <script src="index.js"></script>
+    <script src="index.js"></script>
   </body>
 </html>
